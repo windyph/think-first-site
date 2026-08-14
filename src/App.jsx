@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
-  Menu, X, ArrowRight, Filter, Check, ChevronDown, Mail,
+  Menu, X, ArrowRight, ArrowUp, Filter, Check, ChevronDown, Mail,
   Users, BookOpen, ShieldCheck, BarChart3, Download, ExternalLink,
   CircleDot, MessageCircleQuestion, Facebook
 } from "lucide-react";
@@ -124,14 +124,14 @@ const ROUND_FLOW = [
 ];
 
 /* ---------- Signature element: concentric-ring mark (Inner Circle / Outer Circle) ---------- */
-function RingMark({ size = 220, spin = false, labels = false }) {
+function RingMark({ size = 220, spin = false, labels = false, className = "" }) {
   return (
     <svg
       width={size}
       height={size}
       viewBox="0 0 220 220"
       fill="none"
-      className={spin ? "tf-spin" : ""}
+      className={`${spin ? "tf-spin" : ""} ${className}`}
       aria-hidden="true"
     >
       {labels && (
@@ -554,7 +554,7 @@ function Footer({ setPage }) {
 
         <div>
           <div className="tf-mono text-[10px] md:text-xs uppercase tracking-wide mb-3" style={{ color: PINK }}>Explore</div>
-          <ul className="space-y-2.5 text-xs md:text-sm mb-6" style={{ color: "#B7C4DA" }}>
+          <ul className="space-y-2.5 text-xs md:text-sm mb-6" style={{ color: "#B7C4DA", listStyle: "none", margin: 0, padding: 0 }}>
             {["Learn", "Toolkit", "Pilot", "Community"].map((p) => (
               <li key={p}>
                 <button onClick={() => setPage(p)} className="hover:text-white transition-colors">{p}</button>
@@ -562,12 +562,13 @@ function Footer({ setPage }) {
             ))}
             <li>
               <button onClick={() => setPage("Pilot")} className="hover:text-white transition-colors">
-                Become an Ambassador
+                <span className="sm:hidden">Ambassador</span>
+                <span className="hidden sm:inline">Become an Ambassador</span>
               </button>
             </li>
           </ul>
           <div className="tf-mono text-[10px] md:text-xs uppercase tracking-wide mb-3" style={{ color: PINK }}>Organization</div>
-          <ul className="space-y-2.5 text-xs md:text-sm mb-6" style={{ color: "#B7C4DA" }}>
+          <ul className="space-y-2.5 text-xs md:text-sm mb-6" style={{ color: "#B7C4DA", listStyle: "none", margin: 0, padding: 0 }}>
             {["About", "Contact"].map((p) => (
               <li key={p}>
                 <button onClick={() => setPage(p)} className="hover:text-white transition-colors">{p}</button>
@@ -586,10 +587,11 @@ function Footer({ setPage }) {
           <div className="space-y-2 mb-6">
             <a
               href="mailto:insighttoimpactvn@gmail.com"
-              className="text-xs md:text-sm font-semibold flex items-center gap-1.5 hover:text-white transition-colors break-all"
+              className="text-[10px] md:text-sm font-semibold flex items-start gap-1.5 hover:text-white transition-colors"
               style={{ color: "#B7C4DA" }}
             >
-              <Mail size={13} className="shrink-0" /> insighttoimpactvn@gmail.com
+              <Mail size={13} className="shrink-0 mt-0.5" />
+              <span>insighttoimpactvn@<wbr />gmail.com</span>
             </a>
             <a
               href="https://www.facebook.com/insighttoimpactvn/"
@@ -691,7 +693,7 @@ function Home({ setPage }) {
           </div>
         </div>
         <div className="flex justify-center relative">
-          <RingMark size={360} labels />
+          <RingMark size={360} labels className="w-56 h-56 sm:w-[360px] sm:h-[360px]" />
         </div>
       </section>
 
@@ -2293,7 +2295,7 @@ function About() {
             1 in 4 have received formal AI training.
           </p>
           <a
-            href="https://www.bernama.com/en/world/news.php?id=2526123"
+            href="https://vietnamnews.vn/economy/1766061/ai-usage-widespread-in-viet-nam-but-literacy-gaps-persist-study.html"
             target="_blank" rel="noopener noreferrer"
             className="text-xs font-semibold flex items-center gap-1"
             style={{ color: NAVY }}
@@ -2585,6 +2587,26 @@ function Contact({ showToast }) {
 }
 
 /* ================= APP ================= */
+function BackToTop() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 500);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  if (!visible) return null;
+  return (
+    <button
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      aria-label="Back to top"
+      className="md:hidden fixed bottom-5 right-5 z-40 w-11 h-11 rounded-full flex items-center justify-center shadow-lg"
+      style={{ background: NAVY }}
+    >
+      <ArrowUp size={18} color="#fff" />
+    </button>
+  );
+}
+
 export default function App() {
   const [page, setPage] = useState("Home");
   const [lang, setLang] = useState("EN");
@@ -2643,6 +2665,7 @@ export default function App() {
 
       <Footer setPage={go} />
       <Toast message={toast} />
+      <BackToTop />
     </div>
   );
 }
