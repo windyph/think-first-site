@@ -252,21 +252,24 @@ function CareExplorer() {
   return (
     <div>
       <div className="grid grid-cols-4 gap-2 mb-5">
-        {CARE_STAGES.map((s) => (
-          <button
-            key={s.letter}
-            onClick={() => setOpen(s.letter)}
-            className="rounded-xl border py-4 px-2 text-center transition-colors"
-            style={
-              open === s.letter
-                ? { background: NAVY, borderColor: NAVY, color: "#fff" }
-                : { borderColor: "#EAEDF2", color: INK, background: "#fff" }
-            }
-          >
-            <div className="tf-serif text-2xl leading-none mb-1">{s.letter}</div>
-            <div className="text-[11px] leading-tight" style={{ opacity: 0.85 }}>{s.name}</div>
-          </button>
-        ))}
+        {CARE_STAGES.map((s) => {
+          const activeColor = s.letter === "A" || s.letter === "E" ? PINK : NAVY;
+          return (
+            <button
+              key={s.letter}
+              onClick={() => setOpen(s.letter)}
+              className="rounded-xl border py-4 px-2 text-center transition-colors"
+              style={
+                open === s.letter
+                  ? { background: activeColor, borderColor: activeColor, color: "#fff" }
+                  : { borderColor: "#EAEDF2", color: INK, background: "#fff" }
+              }
+            >
+              <div className="tf-serif text-2xl leading-none mb-1">{s.letter}</div>
+              <div className="text-[11px] leading-tight" style={{ opacity: 0.85 }}>{s.name}</div>
+            </button>
+          );
+        })}
       </div>
       {stage && (
         <Card>
@@ -545,66 +548,78 @@ function Footer({ setPage }) {
       <div className="max-w-7xl mx-auto px-4 md:px-10 py-16 grid grid-cols-3 gap-4 md:gap-10">
         <div>
           <img src={LOGO_WHITE} alt="Insight to Impact" className="h-10 w-10 object-contain mb-4" />
-          <p className="text-xs md:text-sm leading-relaxed" style={{ color: "#B7C4DA" }}>
+          <p className="sm:hidden text-xs leading-relaxed" style={{ color: "#B7C4DA" }}>
+            THINK FIRST is an AI Media &amp; Information Literacy toolkit by Insight to Impact.
+          </p>
+          <p className="hidden sm:block text-sm leading-relaxed" style={{ color: "#B7C4DA" }}>
             THINK FIRST is an AI Media &amp; Information Literacy toolkit developed by Insight to
             Impact, an initiative to empower the next generation of ethical and responsible
             Marketing &amp; Communications professionals.
           </p>
         </div>
 
-        <div>
-          <div className="tf-mono text-[10px] md:text-xs uppercase tracking-wide mb-3" style={{ color: PINK }}>Explore</div>
-          <ul className="space-y-2.5 text-xs md:text-sm mb-6" style={{ color: "#B7C4DA", listStyle: "none", margin: 0, padding: 0 }}>
-            {["Learn", "Toolkit", "Pilot", "Community"].map((p) => (
-              <li key={p}>
-                <button onClick={() => setPage(p)} className="hover:text-white transition-colors">{p}</button>
+        <div className="flex flex-col gap-6">
+          <div>
+            <div className="tf-mono text-[10px] md:text-xs uppercase tracking-wide mb-3" style={{ color: PINK }}>Explore</div>
+            <ul className="space-y-2.5 text-xs md:text-sm" style={{ color: "#B7C4DA", listStyle: "none", margin: 0, padding: 0 }}>
+              {["Learn", "Toolkit", "Pilot", "Community"].map((p) => (
+                <li key={p}>
+                  <button onClick={() => setPage(p)} className="hover:text-white transition-colors">{p}</button>
+                </li>
+              ))}
+              <li>
+                <button onClick={() => setPage("AmbassadorApply")} className="hover:text-white transition-colors">
+                  <span className="sm:hidden">Ambassador</span>
+                  <span className="hidden sm:inline">Become an Ambassador</span>
+                </button>
               </li>
-            ))}
-            <li>
-              <button onClick={() => setPage("Pilot")} className="hover:text-white transition-colors">
-                <span className="sm:hidden">Ambassador</span>
-                <span className="hidden sm:inline">Become an Ambassador</span>
-              </button>
-            </li>
-          </ul>
-          <div className="tf-mono text-[10px] md:text-xs uppercase tracking-wide mb-3" style={{ color: PINK }}>Organization</div>
-          <ul className="space-y-2.5 text-xs md:text-sm mb-6" style={{ color: "#B7C4DA", listStyle: "none", margin: 0, padding: 0 }}>
-            {["About", "Contact"].map((p) => (
-              <li key={p}>
-                <button onClick={() => setPage(p)} className="hover:text-white transition-colors">{p}</button>
-              </li>
-            ))}
-          </ul>
-          <div className="tf-mono text-[10px] md:text-xs uppercase tracking-wide mb-3" style={{ color: PINK }}>Demo status</div>
-          <p className="text-xs leading-relaxed" style={{ color: "#B7C4DA" }}>
-            This site is a working demo prepared for review. Data marked
-            <span style={{ color: PINK }}> Illustrative</span> is not yet live.
-          </p>
+            </ul>
+          </div>
+          <div>
+            <div className="tf-mono text-[10px] md:text-xs uppercase tracking-wide mb-3" style={{ color: PINK }}>Organization</div>
+            <ul className="space-y-2.5 text-xs md:text-sm" style={{ color: "#B7C4DA", listStyle: "none", margin: 0, padding: 0 }}>
+              {["About", "Contact"].map((p) => (
+                <li key={p}>
+                  <button onClick={() => setPage(p)} className="hover:text-white transition-colors">{p}</button>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <div className="tf-mono text-[10px] md:text-xs uppercase tracking-wide mb-3" style={{ color: PINK }}>Demo status</div>
+            <p className="text-[10px] md:text-xs leading-relaxed" style={{ color: "#B7C4DA" }}>
+              This site is a working demo prepared for review. Data marked
+              <span style={{ color: PINK }}> Illustrative</span> is not yet live.
+            </p>
+          </div>
         </div>
 
-        <div>
-          <div className="tf-mono text-[10px] md:text-xs uppercase tracking-wide mb-3" style={{ color: PINK }}>Get in touch</div>
-          <div className="space-y-2 mb-6">
-            <a
-              href="mailto:insighttoimpactvn@gmail.com"
-              className="text-[10px] md:text-sm font-semibold flex items-start gap-1.5 hover:text-white transition-colors"
-              style={{ color: "#B7C4DA" }}
-            >
-              <Mail size={13} className="shrink-0 mt-0.5" />
-              <span>insighttoimpactvn@<wbr />gmail.com</span>
-            </a>
-            <a
-              href="https://www.facebook.com/insighttoimpactvn/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs md:text-sm font-semibold flex items-center gap-1.5 hover:text-white transition-colors"
-              style={{ color: "#B7C4DA" }}
-            >
-              <Facebook size={13} className="shrink-0" /> insighttoimpactvn
-            </a>
+        <div className="flex flex-col gap-6">
+          <div>
+            <div className="tf-mono text-[10px] md:text-xs uppercase tracking-wide mb-3" style={{ color: PINK }}>Get in touch</div>
+            <div className="space-y-2">
+              <a
+                href="mailto:insighttoimpactvn@gmail.com"
+                className="text-[10px] md:text-sm font-semibold flex items-start gap-1.5 hover:text-white transition-colors"
+                style={{ color: "#B7C4DA" }}
+              >
+                <Mail size={13} className="shrink-0 mt-0.5" />
+                <span>insighttoimpactvn@<wbr />gmail.com</span>
+              </a>
+              <a
+                href="https://www.facebook.com/insighttoimpactvn/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[10px] md:text-sm font-semibold flex items-center gap-1.5 hover:text-white transition-colors"
+                style={{ color: "#B7C4DA" }}
+              >
+                <Facebook size={13} className="shrink-0" /> insighttoimpactvn
+              </a>
+            </div>
           </div>
 
-          <div className="tf-mono text-[10px] md:text-xs uppercase tracking-wide mb-3" style={{ color: PINK }}>Stay in the loop</div>
+          <div>
+            <div className="tf-mono text-[10px] md:text-xs uppercase tracking-wide mb-3" style={{ color: PINK }}>Stay in the loop</div>
           {joined ? (
             <p className="text-xs md:text-sm font-medium" style={{ color: "#fff" }}>Subscribed. Thank you.</p>
           ) : (
@@ -636,6 +651,7 @@ function Footer({ setPage }) {
               </button>
             </form>
           )}
+          </div>
         </div>
       </div>
       <div className="border-t py-6 text-center text-xs" style={{ borderColor: "#123B78", color: "#84A0C7" }}>
@@ -665,8 +681,8 @@ function Home({ setPage }) {
       <section className="max-w-7xl mx-auto px-6 lg:px-10 pt-16 md:pt-24 pb-20 grid md:grid-cols-2 gap-12 items-center">
         <div>
           <Eyebrow>A toolkit from Insight to Impact</Eyebrow>
-          <h1 className="tf-serif text-5xl md:text-6xl leading-[1.05]" style={{ color: NAVY }}>
-            <span style={{ color: PINK }}>Think</span> before you USE.
+          <h1 className="tf-serif text-3xl sm:text-4xl lg:text-5xl leading-tight" style={{ color: NAVY }}>
+            <span style={{ color: PINK }}>THINK</span> before you use.
             <br />
             <span style={{ color: PINK }}>CARE</span> before you share.
           </h1>
@@ -693,7 +709,7 @@ function Home({ setPage }) {
           </div>
         </div>
         <div className="flex justify-center relative">
-          <RingMark size={360} labels className="w-56 h-56 sm:w-[360px] sm:h-[360px]" />
+          <RingMark size={414} labels className="w-64 h-64 sm:w-[414px] sm:h-[414px]" />
         </div>
       </section>
 
@@ -1019,10 +1035,18 @@ const LIBRARY_GROUPS = [
 ];
 
 const TASKS = [
-  { id: "Task #1", version: "v1", title: "Publish a photo-ID entertainment story on a tight deadline", theme: "Journalism", type: "A", risk: "Information Integrity", case: "Case: Microsoft's AI newsroom misidentified Jade Thirlwall as Leigh-Anne Pinnock (2020)." },
-  { id: "Task #6", version: "v1", title: "Write a Doctors' Day social post and choose who appears in it", theme: "Communications/PR", type: "B", risk: "Bias & Representation", case: "Case: Kotek et al. (2023) found LLMs default \"doctor\" to male, \"nurse\" to female." },
-  { id: "Task #9", version: "v1", title: "Draft a review-request email from a customer spreadsheet", theme: "Marketing", type: "A", risk: "Privacy & Digital Safety", case: "Case: a March 2023 ChatGPT bug exposed some users' chat titles and payment data." },
-  { id: "Task #12", version: "v1", title: "Translate and post a leadership-study finding on LinkedIn", theme: "Communications/PR", type: "A", risk: "IP & Creative Integrity", case: "Tests whether translation without attribution misleads readers about authorship." },
+  { id: "Task #1", version: "v1", title: "Publish a photo-ID entertainment story on a tight deadline", theme: "Journalism", type: "A", risk: "Hallucination & Misinformation", case: "Case: Microsoft's AI newsroom misidentified Jade Thirlwall as Leigh-Anne Pinnock (2020), The Guardian." },
+  { id: "Task #2", version: "v1", title: "Cite survey statistics in a student union social post", theme: "Communications/PR", type: "A", risk: "Hallucination & Misinformation", case: "Case: Google's Bard misstated a fact about the James Webb Space Telescope on demo day - wiped ~$100B off Alphabet's market value in one day (The Guardian, 2023)." },
+  { id: "Task #3", version: "v1", title: "Summarize a 300-word excerpt into 100 words for publishing", theme: "Journalism", type: "B", risk: "Hallucination & Misinformation", case: "Tests whether compressing a source to a third of its length quietly cuts one side of a balanced argument." },
+  { id: "Task #4", version: "v1", title: "Write a LinkedIn post introducing a founder and spouse from a photo", theme: "Communications/PR", type: "B", risk: "Bias & Underrepresentation", case: "AI Risk: models may default to traditional gender roles - assuming the man is the founder." },
+  { id: "Task #5", version: "v1", title: "Recommend 3 celebrity ambassadors for a skincare campaign", theme: "Marketing", type: "B", risk: "Bias & Underrepresentation", case: "AI Risk: recommendations may overrepresent conventional beauty standards over real audience diversity." },
+  { id: "Task #6", version: "v1", title: "Write a Doctors' Day social brief and choose who appears in it", theme: "Communications/PR", type: "B", risk: "Bias & Underrepresentation", case: "Case: Kotek et al. (2023) found LLMs default \"doctor\" to male, \"nurse\" to female, ACM Collective Intelligence." },
+  { id: "Task #7", version: "v1", title: "Write a press release from internal event details", theme: "Communications/PR", type: "B", risk: "Data & Privacy Risks", case: "AI Risk: teams may paste confidential internal documents into AI that aren't actually needed for a public release." },
+  { id: "Task #8", version: "v1", title: "Draft a student success story from a full personal record", theme: "Marketing", type: "B", risk: "Data & Privacy Risks", case: "Tests whether access to a learner's full record is mistaken for consent to publish it." },
+  { id: "Task #9", version: "v1", title: "Draft a review-request email from a customer spreadsheet", theme: "Marketing", type: "B", risk: "Data & Privacy Risks", case: "Case: a March 2023 ChatGPT bug exposed some users' chat titles and payment data; Italy briefly banned the tool that year (The New York Times, 2023)." },
+  { id: "Task #10", version: "v1", title: "Write 3 USPs for an unreleased proprietary product", theme: "Marketing", type: "B", risk: "Data & Privacy Risks", case: "Case: Samsung engineers leaked confidential source code by pasting it into ChatGPT; Samsung then restricted generative-AI use (Bloomberg/TechCrunch, 2023)." },
+  { id: "Task #11", version: "v1", title: "Explain the meaning behind an unreleased new logo", theme: "Communications/PR", type: "B", risk: "Copyright & Creative Asset Infringement", case: "AI Risk: using AI with unreleased brand assets may expose confidential IP before launch." },
+  { id: "Task #12", version: "v1", title: "Translate and post a leadership-study finding on LinkedIn", theme: "Communications/PR", type: "A", risk: "Copyright & Creative Asset Infringement", case: "Case: Disney and Universal sued Midjourney in 2025 over AI-generated reproductions of copyrighted characters (The Guardian)." },
 ];
 
 const TASK_REVIEW_CRITERIA = [
@@ -1311,9 +1335,8 @@ function Toolkit({ showToast, setPage }) {
       <SectionLabel>Task Bank</SectionLabel>
       <p className="text-sm mb-6 max-w-2xl" style={{ color: INK_SOFT }}>
         A living library of authentic MarCom tasks for AI Media & Information Literacy learning.
-        Type A tasks have a verifiable answer the Editorial Team checks against; Type B tasks are
-        creative or opinion-based, judged by research and comparison. 12 ready-to-use tasks exist
-        in the full bank - 4 shown below, each tied to a documented case, not a hypothetical.
+        All 12 tasks in the bank are below, each grounded in real workplace scenarios and current
+        AI risk cases.
       </p>
 
       <div className="flex flex-wrap items-center gap-2 mb-8">
@@ -1333,7 +1356,7 @@ function Toolkit({ showToast, setPage }) {
             </div>
             <h4 className="font-semibold mb-1.5" style={{ color: NAVY }}>{t.title}</h4>
             <div className="flex flex-wrap gap-2 text-xs tf-mono mb-3" style={{ color: INK_SOFT }}>
-              <span>{t.theme}</span><span>&middot;</span><span>Type {t.type}</span><span>&middot;</span><span>{t.risk}</span>
+              <span>{t.theme}</span><span>&middot;</span><span>{t.risk}</span>
             </div>
             <p className="text-xs leading-relaxed pt-3 border-t" style={{ color: INK_SOFT, borderColor: "#EEF0F4" }}>
               {t.case}
@@ -1416,7 +1439,7 @@ const CURRICULUM = {
       tasks: [
         {
           id: "Task #1",
-          theme: "Information Integrity",
+          theme: "Hallucination & Misinformation",
           time: "10 min",
           participants: 24,
           brief: "Write a 150-word entertainment news article from an image.",
@@ -1439,7 +1462,7 @@ const CURRICULUM = {
         },
         {
           id: "Task #6",
-          theme: "Bias & Representation",
+          theme: "Bias & Underrepresentation",
           time: "5 min",
           participants: 24,
           brief: "Write a creative brief for a Doctors' Day social post and decide who appears in it.",
@@ -1462,7 +1485,7 @@ const CURRICULUM = {
         },
         {
           id: "Task #9",
-          theme: "Privacy & Digital Safety",
+          theme: "Data & Privacy Risks",
           time: "10 min",
           participants: 24,
           brief: "Draft a review-request email from a customer spreadsheet.",
@@ -1501,8 +1524,8 @@ const CURRICULUM = {
       duration: "90 min",
       hasDetail: false,
       tasks: [
-        { id: "Task #5", theme: "Bias & Representation", time: "5 min", participants: 20 },
-        { id: "Task #12", theme: "IP & Creative Integrity", time: "10 min", participants: 20 },
+        { id: "Task #5", theme: "Bias & Underrepresentation", time: "5 min", participants: 20 },
+        { id: "Task #12", theme: "Copyright & Creative Asset Infringement", time: "10 min", participants: 20 },
       ],
     },
     {
@@ -1515,10 +1538,10 @@ const CURRICULUM = {
       duration: "150 min",
       hasDetail: false,
       tasks: [
-        { id: "Task #2", theme: "Information Integrity", time: "10 min", participants: 24 },
-        { id: "Task #7", theme: "Privacy & Digital Safety", time: "10 min", participants: 24 },
-        { id: "Task #10", theme: "IP & Creative Integrity", time: "10 min", participants: 24 },
-        { id: "Task #4", theme: "Bias & Representation", time: "10 min", participants: 24 },
+        { id: "Task #2", theme: "Hallucination & Misinformation", time: "10 min", participants: 24 },
+        { id: "Task #7", theme: "Data & Privacy Risks", time: "10 min", participants: 24 },
+        { id: "Task #10", theme: "Copyright & Creative Asset Infringement", time: "10 min", participants: 24 },
+        { id: "Task #4", theme: "Bias & Underrepresentation", time: "10 min", participants: 24 },
       ],
     },
   ],
@@ -1820,7 +1843,7 @@ function Pilot({ showToast }) {
               <div className="space-y-4">
                 <div className="tf-mono text-xs uppercase tracking-wide" style={{ color: PINK }}>AI MIL themes you're interested in</div>
                 <div className="flex flex-wrap gap-2">
-                  {["Information Integrity", "Bias & Representation", "Privacy & Digital Safety", "IP & Creative Integrity"].map((th) => (
+                  {["Hallucination & Misinformation", "Bias & Underrepresentation", "Data & Privacy Risks", "Copyright & Creative Asset Infringement"].map((th) => (
                     <Pill key={th} active={form.themes.includes(th)} onClick={() => toggleIn("themes", th)}>{th}</Pill>
                   ))}
                 </div>
@@ -1913,27 +1936,61 @@ function Pilot({ showToast }) {
 function VoteCalculator() {
   const [a, setA] = useState(15);
   const [b, setB] = useState(9);
+  const [trueAnswer, setTrueAnswer] = useState("A");
+  const [verdict, setVerdict] = useState("A");
+  const [agree, setAgree] = useState(18);
+  const [totalVoters, setTotalVoters] = useState(24);
+
   const numA = Number(a) || 0;
   const numB = Number(b) || 0;
-  const total = numA + numB;
-  const pctA = total ? Math.round((numA / total) * 100) : 0;
-  const pctB = total ? 100 - pctA : 0;
+  const qTotal = numA + numB;
+  const pctA = qTotal ? Math.round((numA / qTotal) * 100) : 0;
+  const pctB = qTotal ? 100 - pctA : 0;
+
+  const numAgree = Number(agree) || 0;
+  const numTotal = Number(totalVoters) || 0;
+  const detectionAccuracy = numTotal ? Math.round((numAgree / numTotal) * 100) : 0;
+
+  const isBoth = trueAnswer === "Both";
+  const editorialCorrect = isBoth ? true : verdict === trueAnswer;
+  const aiPiece = trueAnswer;
+  const humanPiece = trueAnswer === "A" ? "B" : "A";
+  const aiPct = aiPiece === "A" ? pctA : pctB;
+  const humanPct = humanPiece === "A" ? pctA : pctB;
+  const qualityWinner = aiPct === humanPct ? "tied" : aiPct > humanPct ? "AI-assisted" : "Human-only";
 
   return (
     <Card>
       <div className="tf-mono text-xs uppercase tracking-wide mb-2" style={{ color: PINK }}>Try it - how results get calculated</div>
       <p className="text-sm leading-relaxed mb-4" style={{ color: INK_SOFT }}>
-        Facilitators only ever type the raw count of votes. THINK FIRST works out the
-        percentage - type your own numbers:
+        Facilitators only ever type raw counts. THINK FIRST works out every percentage - try a
+        round yourself:
       </p>
-      <div className="grid grid-cols-2 gap-4 mb-4">
+
+      <div className="mb-2 text-xs font-semibold" style={{ color: NAVY }}>0. True answer - which piece is actually AI-assisted?</div>
+      <div className="flex gap-2 mb-4">
+        {["A", "B", "Both"].map((v) => (
+          <button
+            key={v}
+            onClick={() => setTrueAnswer(v)}
+            className="flex-1 text-sm py-2 rounded-lg border"
+            style={
+              trueAnswer === v
+                ? { background: PINK, color: "#fff", borderColor: PINK }
+                : { borderColor: "#D9DEE7", color: INK_SOFT }
+            }
+          >
+            {v === "Both" ? "Both used AI" : `Piece ${v} is AI-assisted`}
+          </button>
+        ))}
+      </div>
+
+      <div className="mb-2 text-xs font-semibold" style={{ color: NAVY }}>1. Quality vote - which piece is stronger?</div>
+      <div className="grid grid-cols-2 gap-4 mb-3">
         <div>
           <label className="text-xs font-medium block mb-1" style={{ color: NAVY }}>Votes for Piece A</label>
           <input
-            type="number"
-            min="0"
-            value={a}
-            onChange={(e) => setA(e.target.value)}
+            type="number" min="0" value={a} onChange={(e) => setA(e.target.value)}
             className="w-full border rounded-lg px-3 py-2 text-sm"
             style={{ borderColor: "#D9DEE7" }}
           />
@@ -1941,22 +1998,80 @@ function VoteCalculator() {
         <div>
           <label className="text-xs font-medium block mb-1" style={{ color: NAVY }}>Votes for Piece B</label>
           <input
-            type="number"
-            min="0"
-            value={b}
-            onChange={(e) => setB(e.target.value)}
+            type="number" min="0" value={b} onChange={(e) => setB(e.target.value)}
             className="w-full border rounded-lg px-3 py-2 text-sm"
             style={{ borderColor: "#D9DEE7" }}
           />
         </div>
       </div>
-      <div className="h-3 rounded-full overflow-hidden flex" style={{ background: "#EEF0F4" }}>
+      <div className="h-3 rounded-full overflow-hidden flex mb-1.5" style={{ background: "#EEF0F4" }}>
         <div style={{ width: `${pctA}%`, background: NAVY }} />
         <div style={{ width: `${pctB}%`, background: PINK }} />
       </div>
-      <div className="flex justify-between text-sm mt-2 tf-mono" style={{ color: INK_SOFT }}>
-        <span>A - {pctA}%</span>
-        <span>B - {pctB}%</span>
+      <div className="flex justify-between text-sm mb-5 tf-mono" style={{ color: INK_SOFT }}>
+        <span>A - {pctA}% {(trueAnswer === "A" || isBoth) && "(AI)"}</span>
+        <span>B - {pctB}% {(trueAnswer === "B" || isBoth) && "(AI)"}</span>
+      </div>
+
+      <div className="mb-2 text-xs font-semibold" style={{ color: NAVY }}>2. Detection - which piece do you think is AI-assisted?</div>
+      <div className="flex gap-2 mb-3">
+        {["A", "B"].map((v) => (
+          <button
+            key={v}
+            onClick={() => setVerdict(v)}
+            className="flex-1 text-sm py-2 rounded-lg border"
+            style={
+              verdict === v
+                ? { background: NAVY, color: "#fff", borderColor: NAVY }
+                : { borderColor: "#D9DEE7", color: INK_SOFT }
+            }
+          >
+            Editorial verdict: Piece {v}
+          </button>
+        ))}
+      </div>
+      <div className="grid grid-cols-2 gap-4 mb-3">
+        <div>
+          <label className="text-xs font-medium block mb-1" style={{ color: NAVY }}>Public Board who agreed</label>
+          <input
+            type="number" min="0" value={agree} onChange={(e) => setAgree(e.target.value)}
+            className="w-full border rounded-lg px-3 py-2 text-sm"
+            style={{ borderColor: "#D9DEE7" }}
+          />
+        </div>
+        <div>
+          <label className="text-xs font-medium block mb-1" style={{ color: NAVY }}>Total voters</label>
+          <input
+            type="number" min="0" value={totalVoters} onChange={(e) => setTotalVoters(e.target.value)}
+            className="w-full border rounded-lg px-3 py-2 text-sm"
+            style={{ borderColor: "#D9DEE7" }}
+          />
+        </div>
+      </div>
+
+      <div className="rounded-lg p-3" style={{ background: PINK_SOFT }}>
+        <div className="text-xs font-semibold mb-1" style={{ color: NAVY }}>Result</div>
+        <ul className="text-sm space-y-1" style={{ color: INK_SOFT }}>
+          <li>
+            Quality: Piece {pctA >= pctB ? "A" : "B"} rated stronger ({Math.max(pctA, pctB)}%)
+            {isBoth ? (
+              " - both pieces were AI-assisted, so there's no Human-only piece to compare against."
+            ) : (
+              <> - the <b style={{ color: NAVY }}>{qualityWinner}</b> piece{qualityWinner !== "tied" ? " was judged stronger" : " and the other piece tied"}.</>
+            )}
+          </li>
+          <li>
+            Editorial verdict was <b style={{ color: NAVY }}>{editorialCorrect ? "correct" : "incorrect"}</b> -
+            {" "}they said Piece {verdict}
+            {isBoth
+              ? ", and since both pieces used AI, that guess was technically right - though they missed that the other piece did too."
+              : `, the real AI-assisted piece was Piece ${trueAnswer}.`}
+          </li>
+          <li>
+            Public Board detection accuracy: <b style={{ color: NAVY }}>{detectionAccuracy}%</b> agreed
+            with the {editorialCorrect ? "correct" : "incorrect"} editorial verdict.
+          </li>
+        </ul>
       </div>
     </Card>
   );
@@ -1998,11 +2113,10 @@ function Community({ showToast, setPage }) {
       <Card className="mb-24 md:flex items-center justify-between gap-8">
         <div className="mb-6 md:mb-0">
           <h3 className="tf-serif text-xl mb-2" style={{ color: NAVY }}>Bring Fishbowl to your group</h3>
-          <p className="text-sm max-w-lg mb-2" style={{ color: INK_SOFT }}>
+          <p className="text-sm max-w-lg" style={{ color: INK_SOFT }}>
             A ready-to-run activity kit for a class, club, workplace, or community group - slides
             plus a script so any leader can run a demo round.
           </p>
-          <p className="text-xs font-semibold" style={{ color: NAVY }}>No THINK FIRST facilitator required.</p>
         </div>
         <button
           onClick={() => setPage("Download")}
@@ -2504,7 +2618,7 @@ function About() {
       <SectionLabel>FAQ</SectionLabel>
       <div className="space-y-3">
         {[
-          { q: "Is THINK FIRST free?", a: "Yes. All toolkit materials are free to download and print for classroom use." },
+          { q: "Is THINK FIRST free?", a: "Yes. All toolkit materials are free to download, print, or use digitally - in a classroom, workplace, or community setting." },
           { q: "Do we need special software to run a session?", a: "No. Everything is designed to be printed and run with a timer and a room." },
           { q: "Can we adapt the Task Cards for our own field?", a: "Yes, and we'd love a copy back for the shared Task Card Bank once reviewed." },
         ].map((f) => (
@@ -2600,7 +2714,7 @@ function BackToTop() {
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       aria-label="Back to top"
       className="md:hidden fixed bottom-5 right-5 z-40 w-11 h-11 rounded-full flex items-center justify-center shadow-lg"
-      style={{ background: NAVY }}
+      style={{ background: PINK }}
     >
       <ArrowUp size={18} color="#fff" />
     </button>
