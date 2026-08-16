@@ -681,7 +681,7 @@ function Home({ setPage }) {
       <section className="max-w-7xl mx-auto px-6 lg:px-10 pt-16 md:pt-24 pb-20 grid md:grid-cols-2 gap-12 items-center">
         <div>
           <Eyebrow>A toolkit from Insight to Impact</Eyebrow>
-          <h1 className="tf-serif text-3xl sm:text-4xl lg:text-5xl leading-tight" style={{ color: NAVY }}>
+          <h1 className="tf-serif text-3xl sm:text-4xl lg:text-5xl leading-tight" style={{ color: NAVY, fontWeight: 600 }}>
             <span style={{ color: PINK }}>THINK</span> before you use.
             <br />
             <span style={{ color: PINK }}>CARE</span> before you share.
