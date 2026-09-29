@@ -862,7 +862,7 @@ function Learn() {
         <div className="space-y-4 text-sm leading-relaxed" style={{ color: INK_SOFT }}>
           <p>
             <b style={{ color: NAVY }}>Inner Circle</b> - two Creative Teams and an Editorial Team
-            sit facing each other and do the visible work: one team creates with AI, one without,
+            sit facing each other, and each team creates its piece, with at least one team using AI,
             and the Editorial Team must question them and guess which is which.
           </p>
           <p>
